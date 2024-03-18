@@ -5,7 +5,7 @@ import useFetch from '../hooks/useFetch';
 import Loader from './utils/Loader';
 import Tooltip from './utils/Tooltip';
 
-const Tasks = ({taskProp, setTaskProp, searchQuery}) => {
+const Tasks = () => {
 
   const authState = useSelector(state => state.authReducer);
   const [tasks, setTasks] = useState([]);
@@ -48,10 +48,10 @@ const Tasks = ({taskProp, setTaskProp, searchQuery}) => {
   }, [authState.isLoggedIn, fetchTasks]);
 
 
-  // const handleDelete = (id) => {
-  //   const config = { url: `/tasks/${id}`, method: "delete", headers: { Authorization: authState.token } };
-  //   fetchData(config).then(() => fetchTasks());
-  // }
+  const handleDelete = (id) => {
+    const config = { url: `/tasks/${id}`, method: "delete", headers: { Authorization: authState.token } };
+    fetchData(config).then(() => fetchTasks());
+  }
 
   // const handleDelete = (id) => {
   //   const confirmDelete = window.confirm("Are you sure you want to delete?");
@@ -73,40 +73,41 @@ const Tasks = ({taskProp, setTaskProp, searchQuery}) => {
   //   }
   // };
   
-  const handleDelete = (id) => {
-    const confirmDelete = window.confirm("Are you sure you want to delete?");
-    if (confirmDelete) {
-      const config = {
-        url: `/tasks/${id}`,
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: authState.token
-        },
-        body: JSON.stringify({ confirmation: true }) // Include confirmation flag
-      };
+  // const handleDelete = (id) => {
+  //   const confirmDelete = window.confirm("Are you sure you want to delete?");
+  //   if (confirmDelete) {
+  //     const config = {
+  //       url: `/tasks/${id}`,
+  //       method: "DELETE",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //         Authorization: authState.token
+  //       },
+  //       body: JSON.stringify({ confirmation: true }) // Include confirmation flag
+  //     };
   
-      fetch(`/tasks/${id}`, config)
-        .then(response => {
-          if (response.ok) {
-            // Handle success
-            fetchTasks(pagination.page, 4); // Optionally, fetch tasks again to update the UI
-          } else {
-            // Handle error
-            console.error("Error deleting task:", response.statusText);
-          }
-        })
-        .catch(error => {
-          // Handle network error
-          console.error("Network error:", error);
-        });
-      // fetchData(config).then(() => fetchTasks());
-    } else {
-      // Cancel delete action
-      console.log("Delete action canceled");
-      alert("dlete action canceled")
-    }
-  };
+  //     fetch(`/tasks/${id}`, config)
+  //       .then(response => {
+  //         if (response.ok) {
+  //           // Handle success
+  //           fetchTasks(pagination.page, 4); // Optionally, fetch tasks again to update the UI
+  //         } else {
+  //           // Handle error
+  //           console.error("Error deleting task:", response.statusText);
+  //         }
+  //       })
+  //       .catch(error => {
+  //         // Handle network error
+  //         console.error("Network error:", error);
+  //       });
+  //     // fetchData(config).then(() => fetchTasks());
+  //   } else {
+  //     // Cancel delete action
+  //     console.log("Delete action canceled");
+  //     alert("dlete action canceled")
+  //   }
+  // };
+
 
   
   return (

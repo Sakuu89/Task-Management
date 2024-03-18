@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import Tasks from '../components/Tasks';
@@ -8,22 +8,13 @@ const Home = () => {
 
   const authState = useSelector(state => state.authReducer);
   const { isLoggedIn } = authState;
-  const [searchQuery, setSearchQuery] = useState('');
-  const [filteredTasks, setFilteredTasks] = useState([]);
-  const [tasks, setTasks] = useState([]);
+  
 
   useEffect(() => {
     document.title = authState.isLoggedIn ? `${authState.user.name}'s tasks` : "Task Manager";
   }, [authState, isLoggedIn]);
 
-  const handleSearch = (query) => {
-    setSearchQuery(query);
-    // Filter tasks based on the search query
-    const filtered = tasks.filter(task =>
-      task.description.toLowerCase().includes(query.toLowerCase())
-    );
-    setFilteredTasks(filtered);
-  };
+ 
 
   return (
     <>
@@ -47,19 +38,12 @@ const Home = () => {
           <>
           <div className='flex justify-between items-center mx-8 mt-8 mb-4'>
             <h1 className='text-lg mt-8 mx-8 border-b border-b-gray-300'>Welcome {authState.user.name}</h1>
-            <input
-              type="text"
-              placeholder="Search tasks..."
-              className="border border-gray-300 px-3 py-1 rounded-md "
-              value={searchQuery}
-              onChange={(e) => handleSearch(e.target.value)}
-            />
-            
+
             {/* <i className="fa-solid fa-bars"></i> */}
             {/* <SearchIcon className="h-6 w-6 absolute top-1/2 transform -translate-y-1/2 right-3 text-gray-400" /> Adjust right and top position */}
            
             </div>
-            <Tasks taskProp={tasks} setTaskProp={setTasks} searchQuery={searchQuery} />
+            <Tasks />
           </>
         )}
       </MainLayout>
