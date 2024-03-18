@@ -111,38 +111,12 @@ exports.putTask = async (req, res) => {
 }
 
 
-// exports.deleteTask = async (req, res) => {
-//   try {
-//     if (!validateObjectId(req.params.taskId)) {
-//       return res.status(400).json({ status: false, msg: "Task id not valid" });
-//     }
-
-//     let task = await Task.findById(req.params.taskId);
-//     if (!task) {
-//       return res.status(400).json({ status: false, msg: "Task with given id not found" });
-//     }
-
-//     if (task.user != req.user.id) {
-//       return res.status(403).json({ status: false, msg: "You can't delete task of another user" });
-//     }
-
-//     await Task.findByIdAndDelete(req.params.taskId);
-//     res.status(200).json({ status: true, msg: "Task deleted successfully.." });
-//   }
-//   catch (err) {
-//     console.error(err);
-//     return res.status(500).json({ status: false, msg: "Internal Server Error" });
-//   }
-// }
 exports.deleteTask = async (req, res) => {
-  // const id = req.params.taskId
   try {
-
-    const confirmation = req.body.confirmation;
     if (!validateObjectId(req.params.taskId)) {
       return res.status(400).json({ status: false, msg: "Task id not valid" });
     }
-   
+
     let task = await Task.findById(req.params.taskId);
     if (!task) {
       return res.status(400).json({ status: false, msg: "Task with given id not found" });
@@ -152,20 +126,54 @@ exports.deleteTask = async (req, res) => {
       return res.status(403).json({ status: false, msg: "You can't delete task of another user" });
     }
 
-    // Check if confirmation flag is set in the request body
-    // if (!req.body.confirmation) {
-    //   return res.status(400).json({ status: false, msg: "Confirmation required" });
-    // }
-    if (!confirmation || confirmation !== 'true') {
-      return res.status(400).json({ message: 'Confirmation required for deletion' });
-    }
-      await Task.findByIdAndDelete(req.params.taskId);
-      res.status(200).json({ status: true, msg: "Task deleted successfully.." });
-    
-   
+    await Task.findByIdAndDelete(req.params.taskId);
+    res.status(200).json({ status: true, msg: "Task deleted successfully.." });
   }
   catch (err) {
     console.error(err);
     return res.status(500).json({ status: false, msg: "Internal Server Error" });
   }
 }
+
+// exports.deleteTask = async (req, res) => {
+//   // const id = req.params.taskId
+//   try {
+
+//     const confirmation = req.body.confirmation;
+//     if (!confirmation || confirmation !== 'true') {
+//       return res.status(400).json({ message: 'Confirmation required for deletion' });
+//     }
+
+//     if (!validateObjectId(req.params.taskId)) {
+//       return res.status(400).json({ status: false, msg: "Task id not valid" });
+     
+//     }
+//     console.log(1)
+   
+//     let task = await Task.findById(req.params.taskId);
+//     if (!task) {
+//       return res.status(400).json({ status: false, msg: "Task with given id not found" });
+//     }
+
+//     console.log(2)
+//     if (task.user != req.user.id) {
+//       return res.status(403).json({ status: false, msg: "You can't delete task of another user" });
+//     }
+//     console.log(3)
+//     // Check if confirmation flag is set in the request body
+//     // if (!req.body.confirmation) {
+//     //   return res.status(400).json({ status: false, msg: "Confirmation required" });
+//     // }
+   
+//     console.log(4)
+//       await Task.findByIdAndDelete(req.params.taskId);
+//       res.status(200).json({ status: true, msg: "Task deleted successfully.." });
+    
+//       console.log(5)
+   
+//   }
+//   catch (err) {
+//     console.error(err);
+//     return res.status(500).json({ status: false, msg: "Internal Server Error" });
+//   }
+// }
